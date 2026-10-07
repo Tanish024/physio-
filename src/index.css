@@ -1,0 +1,214 @@
+/* stylelint-disable at-rule-no-unknown */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* stylelint-enable at-rule-no-unknown */
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Fitness-themed vibrant palette */
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+
+    --card: 240 10% 7%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 240 10% 7%;
+    --popover-foreground: 0 0% 98%;
+
+    /* Energetic gradient colors */
+    --primary: 14 100% 65%;
+    /* Coral */
+    --primary-foreground: 240 10% 3.9%;
+
+    --secondary: 280 89% 65%;
+    /* Purple */
+    --secondary-foreground: 0 0% 98%;
+
+    --accent: 210 100% 56%;
+    /* Electric Blue */
+    --accent-foreground: 0 0% 98%;
+
+    --success: 142 76% 45%;
+    /* Vibrant Green */
+    --success-foreground: 0 0% 98%;
+
+    --warning: 38 92% 50%;
+    /* Amber */
+    --warning-foreground: 240 10% 3.9%;
+
+    --muted: 240 5% 26%;
+    --muted-foreground: 240 5% 64.9%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 6% 17%;
+    --input: 240 6% 17%;
+    --ring: 14 100% 65%;
+
+    --radius: 1rem;
+
+    /* Custom gradient variables */
+    --gradient-hero: linear-gradient(135deg, hsl(14 100% 65%), hsl(280 89% 65%), hsl(210 100% 56%));
+    --gradient-card: linear-gradient(180deg, hsl(240 10% 9%), hsl(240 10% 7%));
+    --gradient-success: linear-gradient(135deg, hsl(142 76% 45%), hsl(142 76% 55%));
+
+    /* Glow effects */
+    --glow-primary: 0 0 20px hsl(14 100% 65% / 0.5);
+    --glow-success: 0 0 20px hsl(142 76% 45% / 0.6);
+    --glow-accent: 0 0 20px hsl(210 100% 56% / 0.5);
+
+    /* Animation timings */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    --radius: 1rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Same vibrant theme for dark mode */
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+
+  /* Gradient utility classes */
+  .gradient-primary {
+    @apply bg-gradient-to-r from-primary to-secondary;
+  }
+
+  .gradient-success {
+    @apply bg-gradient-to-r from-success via-success to-emerald-500;
+  }
+
+  /* Glow effects */
+  .shadow-glow {
+    box-shadow: var(--glow-primary);
+  }
+
+  .hover\:shadow-glow:hover {
+    box-shadow: var(--glow-primary);
+  }
+
+  /* Animation classes */
+  .animate-slide-up {
+    animation: slideUp 0.6s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.4s ease-out;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite;
+  }
+}
+
+@layer utilities {
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulseGlow {
+
+  0%,
+  100% {
+    box-shadow: var(--glow-primary);
+  }
+
+  50% {
+    box-shadow: 0 0 30px hsl(14 100% 65% / 0.8);
+  }
+}

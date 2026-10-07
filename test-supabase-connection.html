@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Supabase Connection</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <h1>Supabase Connection Test</h1>
+    <button onclick="testConnection()">Test Connection</button>
+    <button onclick="checkTables()">Check Tables</button>
+    <button onclick="createTestOrder()">Create Test Order</button>
+    <pre id="output"></pre>
+
+    <script>
+        const SUPABASE_URL = "https://cknhitafyibctnkuezjc.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNrbmhpdGFmeWliY3Rua3VlempjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk2MDE3MTQsImV4cCI6MjA3NTE3NzcxNH0._DZZCO9F6A49LS7eP7Ec1498hDdmEe54egL98NpcH5A";
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        function log(message) {
+            const output = document.getElementById('output');
+            output.textContent += message + '\n\n';
+            console.log(message);
+        }
+
+        async function testConnection() {
+            log('Testing connection...');
+            try {
+                const { data, error } = await supabase.from('profiles').select('count');
+                if (error) {
+                    log('Error: ' + JSON.stringify(error, null, 2));
+                } else {
+                    log('✓ Connection successful!');
+                    log('Data: ' + JSON.stringify(data, null, 2));
+                }
+            } catch (e) {
+                log('Exception: ' + e.message);
+            }
+        }
+
+        async function checkTables() {
+            log('Checking if orders table exists...');
+            try {
+                // Try to query the orders table
+                const { data, error } = await supabase
+                    .from('orders')
+                    .select('id')
+                    .limit(1);
+                
+                if (error) {
+                    log('❌ Orders table error:');
+                    log(JSON.stringify(error, null, 2));
+                    
+                    if (error.message.includes('does not exist') || error.message.includes('schema cache')) {
+                        log('\n⚠️ The orders table does NOT exist in your database!');
+                        log('You need to run the SQL migration in Supabase Dashboard.');
+                    }
+                } else {
+                    log('✓ Orders table exists!');
+                    log('Sample data: ' + JSON.stringify(data, null, 2));
+                }
+            } catch (e) {
+                log('Exception: ' + e.message);
+            }
+        }
+
+        async function createTestOrder() {
+            log('Attempting to create test order...');
+            try {
+                const { data, error } = await supabase
+                    .from('orders')
+                    .insert({
+                        customer_name: 'Test User',
+                        customer_email: 'test@example.com',
+                        address: 'Test Address',
+                        city: 'Test City',
+                        postal_code: '12345',
+                        subtotal: 100.00,
+                        shipping: 5.99,
+                        total: 105.99,
+                        status: 'created'
+                    })
+                    .select()
+                    .single();
+                
+                if (error) {
+                    log('❌ Error creating order:');
+                    log(JSON.stringify(error, null, 2));
+                } else {
+                    log('✓ Order created successfully!');
+                    log('Order data: ' + JSON.stringify(data, null, 2));
+                }
+            } catch (e) {
+                log('Exception: ' + e.message);
+            }
+        }
+    </script>
+</body>
+</html>
